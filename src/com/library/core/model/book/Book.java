@@ -9,7 +9,6 @@ public class Book {
     private final String authorName;
     private final Year yearReleased;
     private final BookCategory category;
-
     private int quantity;
 
     public Book(String id, String name, String authorName, Year yearReleased, BookCategory category) {
@@ -40,7 +39,7 @@ public class Book {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void updateQuantity(int quantity) {
         this.quantity += quantity;
     }
 }

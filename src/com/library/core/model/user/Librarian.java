@@ -1,6 +1,7 @@
 package com.library.core.model.user;
 
 import com.library.core.model.book.Book;
+import com.library.core.model.book.RentedBook;
 import com.library.core.repository.book.BooksManager;
 import com.library.core.repository.user.UserDetailsManager;
 
@@ -17,8 +18,11 @@ public class Librarian extends User {
         this.manager = manager;
     }
 
-    public Collection<User> getRentedMembers() {
+    public Collection<Member> getRentedMembers() {
         return detailsManager.getRentedUsers();
+    }
+    public Collection<RentedBook> getRentedBooks(){
+        return manager.getRentedBooks();
     }
     public Collection<User> getAllMember(){
         return detailsManager.getAllUsers();
