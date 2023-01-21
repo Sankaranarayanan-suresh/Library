@@ -11,6 +11,16 @@ public class Book {
     private final BookCategory category;
     private int quantity;
 
+    @Override
+    public String toString() {
+        return  "id         = " + id  + "\n" +
+                "name         = " + name +"\n" +
+                "authorName   = " + authorName +"\n" +
+                "yearReleased = " + yearReleased +"\n" +
+                "category     = " + category +"\n" +
+                "quantity     = " + quantity;
+    }
+
     public Book(String id, String name, String authorName, Year yearReleased, BookCategory category) {
         this.id = id;
         this.name = name;

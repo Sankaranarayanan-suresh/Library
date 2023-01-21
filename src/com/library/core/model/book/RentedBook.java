@@ -10,6 +10,13 @@ public class RentedBook extends Book {
     private final LocalDate returnDate;
     private final Member member;
 
+    @Override
+    public String toString() {
+        return  "id        = " + id + "\n" +
+                "returnDate  = " + returnDate +"\n" +
+                "member      = " + member.getName();
+    }
+
     public RentedBook(String id, String name, String authorName, Year yearReleased, BookCategory category, Member customerID, int numberOfDays) {
         super(id, name, authorName, yearReleased, category);
         this.returnDate = java.time.LocalDate.now().plusDays(numberOfDays);

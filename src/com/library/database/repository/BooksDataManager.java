@@ -20,14 +20,14 @@ public class BooksDataManager implements BooksManager, UserBookManager {
     private final DatabaseFunctions<Book> database;
     private final RentedBooksManager rentedBookDatabase;
 
-    public BooksDataManager(DatabaseFunctions<Book> database,RentedBooksManager rentedBookDatabase) {
+    public BooksDataManager(DatabaseFunctions<Book> database, RentedBooksManager rentedBookDatabase) {
         this.database = database;
         this.rentedBookDatabase = rentedBookDatabase;
     }
 
     @Override
     public void addBook(String name, String authorName, Year yearReleased, BookCategory category) {
-        Book book = new Book(Utils.generateID("Book"),name,authorName,yearReleased,category);
+        Book book = new Book(Utils.generateID("Book"), name, authorName, yearReleased, category);
         database.set(book);
     }
 
@@ -48,9 +48,9 @@ public class BooksDataManager implements BooksManager, UserBookManager {
 
     @Override
     public Collection<Book> getAvailableBooks() {
-        List<Book> availableBooks =new ArrayList<>();
-        for(Book book : database.getAll()){
-            if (book.getQuantity()>0){
+        List<Book> availableBooks = new ArrayList<>();
+        for (Book book : database.getAll()) {
+            if (book.getQuantity() > 0) {
                 availableBooks.add(book);
             }
         }
@@ -58,7 +58,7 @@ public class BooksDataManager implements BooksManager, UserBookManager {
     }
 
     @Override
-    public RentedBook rentBook(String id, Member member,int numberOfDays) {
+    public RentedBook rentBook(String id, Member member, int numberOfDays) {
         if (member.getMemberShipValidDate().isAfter(java.time.LocalDate.now()))
             throw new RuntimeException("You membership validity is over.");
         if (!member.getMemberShipValidDate().isAfter(member.getMemberShipValidDate().plusDays(numberOfDays)))
@@ -66,7 +66,7 @@ public class BooksDataManager implements BooksManager, UserBookManager {
         Book book = database.get(id);
         book.updateQuantity(-1);
         database.update(book);
-        RentedBook rentedBook = new RentedBook(book.id,book.getName(),book.getAuthorName(),book.getYearReleased(),book.getCategory(),member,numberOfDays);
+        RentedBook rentedBook = new RentedBook(book.id, book.getName(), book.getAuthorName(), book.getYearReleased(), book.getCategory(), member, numberOfDays);
         rentedBookDatabase.updateUserRentedBook(rentedBook);
         return rentedBook;
     }
