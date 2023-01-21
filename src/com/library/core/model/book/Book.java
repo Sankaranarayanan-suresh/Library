@@ -17,6 +17,7 @@ public class Book {
         this.authorName = authorName;
         this.yearReleased = yearReleased;
         this.category = category;
+        this.quantity++;
     }
 
     public String getName() {

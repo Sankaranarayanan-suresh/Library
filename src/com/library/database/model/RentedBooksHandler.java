@@ -1,11 +1,13 @@
-package com.library.databse.model;
+package com.library.database.model;
 
 import com.library.core.model.book.RentedBook;
+import com.library.core.repository.book.RentedBooksManager;
+import com.library.core.repository.book.UserRentedBookManager;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-public class RentedBooksHandler implements DatabaseFunctions<RentedBook> {
+public class RentedBooksHandler implements DatabaseFunctions<RentedBook>, RentedBooksManager, UserRentedBookManager {
 
     private static RentedBooksHandler databaseInstance = null;
     private final HashMap<String, RentedBook> rentedBooks = new HashMap<>();
@@ -49,5 +51,20 @@ public class RentedBooksHandler implements DatabaseFunctions<RentedBook> {
         if (!rentedBooks.containsKey(key))
             throw new RuntimeException("Cannot find that book in library");
         rentedBooks.remove(key);
+    }
+
+    @Override
+    public void updateUserRentedBook(RentedBook rentedBook) {
+        set(rentedBook);
+    }
+
+    @Override
+    public void removeUserRentedBook(String id) {
+        remove(id);
+    }
+
+    @Override
+    public Collection<RentedBook> getRentedBooks() {
+        return getAll();
     }
 }

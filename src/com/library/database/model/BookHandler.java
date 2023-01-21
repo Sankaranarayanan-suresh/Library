@@ -1,7 +1,6 @@
-package com.library.databse.model;
+package com.library.database.model;
 
 import com.library.core.model.book.Book;
-import com.library.core.model.book.RentedBook;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -10,7 +10,8 @@ public interface UserBookManager {
 
     Collection<Book> getAvailableBooks();
 
-    RentedBook rentBook(String id, Member member);
+    RentedBook rentBook(String id, Member member,int numberOfDays);
 
     void returnBook(Book book);
+    Collection<RentedBook> getRentedBooks();
 }

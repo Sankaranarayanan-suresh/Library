@@ -7,6 +7,7 @@ public enum BookCategory {
     PHYSICS,
     CHEMISTRY,
     BIOLOGY,
-    TAMIL;
+    TAMIL,
+    UNKNOWN
 
 }

@@ -1,4 +1,4 @@
-package com.library.databse.model;
+package com.library.database.model;
 
 import java.util.Collection;
 
