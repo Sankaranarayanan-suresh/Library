@@ -8,16 +8,16 @@ import java.util.HashMap;
 
 public class BookHandler implements DatabaseFunctions<Book> {
 
-    private static BookHandler databaseInstance = null;
+    private static BookHandler handlerInstance = null;
     private final HashMap<String, Book> books = new HashMap<>();
 
     private BookHandler() {
     }
 
     public static BookHandler getInstance() {
-        if (databaseInstance == null)
-            databaseInstance = new BookHandler();
-        return databaseInstance;
+        if (handlerInstance == null)
+            handlerInstance = new BookHandler();
+        return handlerInstance;
     }
 
     @Override

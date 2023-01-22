@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class RentedBooksHandler implements DatabaseFunctions<RentedBook>, RentedBooksManager, UserRentedBookManager {
 
-    private static RentedBooksHandler databaseInstance = null;
+    private static RentedBooksHandler handlerInstance = null;
     private final HashMap<String, RentedBook> rentedBooks = new HashMap<>();
 
     private RentedBooksHandler() {
@@ -17,9 +17,9 @@ public class RentedBooksHandler implements DatabaseFunctions<RentedBook>, Rented
     }
 
     public static RentedBooksHandler getInstance() {
-        if (databaseInstance == null)
-            databaseInstance = new RentedBooksHandler();
-        return databaseInstance;
+        if (handlerInstance == null)
+            handlerInstance = new RentedBooksHandler();
+        return handlerInstance;
     }
 
     @Override

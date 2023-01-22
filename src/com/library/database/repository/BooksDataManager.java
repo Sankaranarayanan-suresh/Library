@@ -59,9 +59,9 @@ public class BooksDataManager implements BooksManager, UserBookManager {
 
     @Override
     public RentedBook rentBook(String id, Member member, int numberOfDays) {
-        if (member.getMemberShipValidDate().isAfter(java.time.LocalDate.now()))
+        if (member.getMemberShipValidDate().isBefore(java.time.LocalDate.now()))
             throw new RuntimeException("You membership validity is over.");
-        if (!member.getMemberShipValidDate().isAfter(member.getMemberShipValidDate().plusDays(numberOfDays)))
+        if (member.getMemberShipValidDate().isBefore(java.time.LocalDate.now().plusDays(numberOfDays)))
             throw new RuntimeException("Upgrade your plan to rent a book!!");
         Book book = database.get(id);
         book.updateQuantity(-1);

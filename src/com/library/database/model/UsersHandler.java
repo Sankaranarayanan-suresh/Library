@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public class UsersHandler implements DatabaseFunctions<User> {
 
-    private static UsersHandler databaseInstance = null;
+    private static UsersHandler handlerInstance = null;
 
     public static UsersHandler getInstance(){
-        if (databaseInstance == null)
-            databaseInstance = new UsersHandler();
-        return databaseInstance;
+        if (handlerInstance == null)
+            handlerInstance = new UsersHandler();
+        return handlerInstance;
     }
 
     private UsersHandler() {
@@ -36,9 +36,9 @@ public class UsersHandler implements DatabaseFunctions<User> {
 
     @Override
     public void update(User data) {
-        if (!users.containsKey(data.id))
+        if (!users.containsKey(data.getPhoneNumber()))
             throw new RuntimeException("Data you are trying to Update does not exist!");
-        users.put(data.id,data);
+        users.put(data.getPhoneNumber(),data);
     }
 
     @Override

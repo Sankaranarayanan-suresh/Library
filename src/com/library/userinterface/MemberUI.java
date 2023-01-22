@@ -96,8 +96,15 @@ public class MemberUI {
     }
 
     private void viewRentedBooks() {
+        List<RentedBook> books = new ArrayList<>(member.getRentedBooks());
         int i = 1;
-        System.out.println(i + "." + member.getRentedBooks());
+        if (books.size() == 0) {
+            System.out.println("You have not rented any book!!");
+            return;
+        }
+        for (RentedBook book : books) {
+            System.out.println(i++ + "." + book);
+        }
         System.out.println("Press any key to exit.");
         String exit = new Scanner(System.in).nextLine();
     }
@@ -116,16 +123,23 @@ public class MemberUI {
     }
 
     private void returnBook() {
+        List<RentedBook> books = new ArrayList<>(member.getRentedBooks());
         int i = 1;
-        System.out.println(i + "." + member.getRentedBooks());
+        if (books.size() == 0) {
+            System.out.println("No Books to return!!");
+            return;
+        }
+        for (RentedBook book : books) {
+            System.out.println(i++ + "." + book);
+        }
         System.out.println("Select the book that you want to return.");
         int returnBookPreference = Utils.getInteger();
         while (returnBookPreference > member.getRentedBooks().size()) {
             System.out.println("Select from the given books.");
             returnBookPreference = Utils.getInteger();
         }
-        RentedBook book = member.getRentedBooks().get(returnBookPreference);
-        if (book.getReturnDate().isAfter(java.time.LocalDate.now())) {
+        RentedBook book = member.getRentedBooks().get(returnBookPreference-1);
+        if (book.getReturnDate().isBefore(java.time.LocalDate.now())) {
             System.out.println("The return date of the book has passed. You need tp pay a penalty for the late return.");
             int numberOfDays = book.getReturnDate().compareTo(java.time.LocalDate.now());
             System.out.println("Penalty amount is : Rs." + numberOfDays * 50);
@@ -133,6 +147,7 @@ public class MemberUI {
         }
         try {
             member.returnBook(book);
+            System.out.println("Book returned successfully:)");
         }catch (RuntimeException e){
             System.out.println(e.getMessage());
         }
@@ -187,7 +202,7 @@ public class MemberUI {
                     break;
                 case 7:
                     deleteAccount();
-                    break;
+                    break driverFunction;
                 case 8:
                     break driverFunction;
                 default:
