@@ -56,7 +56,6 @@ public class LibrarianUI {
 
     private void viewListOfBooks() {
         List<Book> books = new ArrayList<>(librarian.getAllBooks());
-        System.out.println(librarian.getAllBooks().size());
         int i = 1;
         if (books.size() == 0) {
             System.out.println("No Books to view!!");
@@ -92,7 +91,7 @@ public class LibrarianUI {
         Year year = Utils.getYear();
         int i = 1;
         for (BookCategory category : BookCategory.values()) {
-            System.out.println(i++ + "." + category);
+            System.out.println(i++ + "." + category.name());
         }
         System.out.println("Select the category of the book");
         int category = Utils.getInteger();
@@ -100,34 +99,17 @@ public class LibrarianUI {
             System.out.println("Select from the given category!");
             category = Utils.getInteger();
         }
-        BookCategory bookCategory = null;
-        switch (category) {
-            case 1:
-                bookCategory = BookCategory.ENGLISH;
-                break;
-            case 2:
-                bookCategory = BookCategory.MATHS;
-                break;
-            case 3:
-                bookCategory = BookCategory.PHYSICS;
-                break;
-            case 4:
-                bookCategory = BookCategory.CHEMISTRY;
-                break;
-            case 5:
-                bookCategory = BookCategory.BIOLOGY;
-                break;
-            case 6:
-                bookCategory = BookCategory.TAMIL;
-                break;
-            case 7:
-                bookCategory = BookCategory.UNKNOWN;
-                break;
-            default:
-                System.out.println("Select from the given categories!");
-        }
+        BookCategory bookCategory = BookCategory.values[category-1];
         librarian.addBook(bookName, authorName, year, bookCategory);
         System.out.println("Books added successfully:)");
+    }
+    private void viewMembershipPlans(){
+        double[] planCost = librarian.getMembershipPlans();
+        for (int i = 1; i <= planCost.length; i++) {
+            System.out.println(i + "." + i * 3 + "-Months --->" + planCost[i - 1]);
+        }
+        System.out.println("Press any key to exit.");
+        String exit = new Scanner(System.in).nextLine();
     }
 
     private void removeBook() {
@@ -140,11 +122,14 @@ public class LibrarianUI {
         for (Book book : books) {
             System.out.println(i++ + "." + book);
         }
-        System.out.println("Select the book you want to remove!");
+        System.out.println("Select the book you want to remove or press 0 to exit");
         int removingPreference = Utils.getInteger();
-        while (removingPreference > books.size()) {
+        while (removingPreference > books.size()|| removingPreference < 0) {
             System.out.println("Select from the given list!!");
             removingPreference = Utils.getInteger();
+        }
+        if (removingPreference == 0){
+            return;
         }
         Book book = books.get(removingPreference-1);
         try {
@@ -200,8 +185,8 @@ public class LibrarianUI {
     public void showMenu() {
         driverFunction:
         while (true) {
-            System.out.println("\n1.Edit My profile\n2.View List of Books\n3.View rented Members\n4.Add Book\n5.Remove book\n" +
-                    "6.View my Profile\n7.View RentedBooks\n8.View Members\n9.Change membership plans\n10.Sign-Out");
+            System.out.println("\n1.Edit My profile\n2.View List of Books\n3.View rented Members\n4.View Members\n5.View RentedBooks\n" +
+                    "6.View my Profile\n7.Add Book\n8.Remove book\n9.View Membership Plans\n10.Change membership plans\n11.Sign-Out");
             int customerPreference = Utils.getInteger();
             switch (customerPreference) {
                 case 1:
@@ -214,24 +199,27 @@ public class LibrarianUI {
                     viewRentedMembers();
                     break;
                 case 4:
-                    addBook();
+                    viewMembers();
                     break;
                 case 5:
-                    removeBook();
+                    viewRentedBooks();
                     break;
                 case 6:
                     viewProfile();
                     break;
                 case 7:
-                    viewRentedBooks();
+                    addBook();
                     break;
                 case 8:
-                    viewMembers();
+                    removeBook();
                     break;
                 case 9:
-                    changeMembershipPlans();
+                    viewMembershipPlans();
                     break;
                 case 10:
+                    changeMembershipPlans();
+                    break ;
+                case 11:
                     break driverFunction;
                 default:
                     System.out.println("Please select from the given option.");

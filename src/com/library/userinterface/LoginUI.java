@@ -4,6 +4,7 @@ import com.library.core.model.user.Librarian;
 import com.library.core.model.user.Member;
 import com.library.core.model.user.User;
 import com.library.database.repository.UserDataManager;
+import com.library.database.utils.Utils;
 
 import java.util.Scanner;
 
@@ -18,9 +19,9 @@ public class LoginUI {
         System.out.println("Enter Your name: ");
         String name = new Scanner(System.in).nextLine();
 
-        System.err.println("Remember the phone number that you enter now. \nYou will be using your phone number to login again.");
+        System.out.println("******  Remember the phone number that you enter now.You will be using your phone number to login again.******");
         System.out.println("Enter Your phone number: ");
-        String phoneNumber = new Scanner(System.in).nextLine();
+        String phoneNumber = Utils.getPhoneNumber();
 
         if (userDataManager.userExists(phoneNumber)) {
             System.out.println("User already Exists!!!");
@@ -29,9 +30,10 @@ public class LoginUI {
 
         while (true) {
             System.out.println("Enter password for your account: ");
-            String password = new Scanner(System.in).nextLine();
+            String password = Utils.getPassword();
             System.out.println("Re-Enter your password: ");
-            String reenteredPassword = new Scanner(System.in).nextLine();
+            String reenteredPassword =Utils.getPassword();
+            assert password != null;
             if (!password.equals(reenteredPassword)) {
                 System.err.println("Password Mismatch");
                 continue;
@@ -44,9 +46,9 @@ public class LoginUI {
     public User signIn() {
         while (true) {
             System.out.println("Enter Your phone number: ");
-            String phoneNumber = new Scanner(System.in).nextLine();
+            String phoneNumber = Utils.getPhoneNumber();
             System.out.println("Enter the password: ");
-            String password = new Scanner(System.in).nextLine();
+            String password = Utils.getPassword();
             if (userDataManager.getUser(phoneNumber) instanceof Member) {
                 if (userDataManager.checkUserCredentials(phoneNumber, password)) {
                     System.out.println("\n\nLogin Successfully Completed!!");

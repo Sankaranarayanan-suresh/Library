@@ -24,7 +24,6 @@ public class Member extends User {
         this.bookManager = manager;
         this.accountManager = accountManager;
         this.rentedBooks = new ArrayList<>();
-        System.out.println(memberShipValidDate);
     }
 
     public LocalDate getMemberShipValidDate() {
@@ -64,5 +63,13 @@ public class Member extends User {
     }
     public void deleteAccount(){
         accountManager.removeMember(this.getPhoneNumber());
+    }
+
+    @Override
+    public String toString() {
+        return  "id                     =  " + id + "\n" +
+                "name                     =  " + this.getName() + "\n" +
+                "phoneNumber              =  " + this.getPhoneNumber()+"\n" +
+                "Membership validity date =  " + memberShipValidDate;
     }
 }

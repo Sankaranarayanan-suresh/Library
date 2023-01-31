@@ -8,6 +8,7 @@ public enum BookCategory {
     CHEMISTRY,
     BIOLOGY,
     TAMIL,
-    UNKNOWN
+    UNKNOWN;
+    public static final BookCategory[] values = values();
 
 }

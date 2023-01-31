@@ -12,13 +12,15 @@ public class RentedBook extends Book {
 
     @Override
     public String toString() {
-        return  "id        = " + id + "\n" +
-                "returnDate  = " + returnDate +"\n" +
-                "member      = " + member.getName();
+        return  "id         = " + id + "\n" +
+                "serialNumber = " + super.getSerialNumber() + "\n" +
+                "Name         = " + getName() +"\n"+
+                "returnDate   = " + returnDate +"\n" +
+                "member       = " + member.getName()+"\n" ;
     }
 
-    public RentedBook(String id, String name, String authorName, Year yearReleased, BookCategory category, Member customerID, int numberOfDays) {
-        super(id, name, authorName, yearReleased, category);
+    public RentedBook(String id,int serialNumber, String name, String authorName, Year yearReleased, BookCategory category, Member customerID, int numberOfDays) {
+        super(id,serialNumber,name, authorName, yearReleased, category);
         this.returnDate = java.time.LocalDate.now().plusDays(numberOfDays);
         this.member = customerID;
     }

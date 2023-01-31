@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Utils {
     private static int i = 1;
+    private static int serialNumber = 1;
 
     public static int getInteger() {
         Scanner sc = new Scanner(System.in);
@@ -14,6 +15,17 @@ public class Utils {
             System.err.println("Enter valid option!!.");
             return getInteger();
         }
+    }
+    public static String getPhoneNumber(){
+        String phoneNumber = new Scanner(System.in).nextLine();
+        while (!phoneNumber.matches("[6-9]{1}[0-9]{9}")) {
+            System.out.println("Phone number is not valid");
+            phoneNumber = new Scanner(System.in).nextLine();
+        }
+        return phoneNumber;
+    }
+    public static int getBookSerialNumber(){
+        return serialNumber++;
     }
 
     public static Year getYear() {
@@ -41,7 +53,7 @@ public class Utils {
     }
 
     public static String generateID(String type) {
-        String s = type.hashCode() + String.valueOf(i++);
+        String s = (type.hashCode() + String.valueOf(i++));
         if (type.equalsIgnoreCase("book")) {
             return "Book-" + s;
         } else if (type.equalsIgnoreCase("Member")) {
@@ -51,6 +63,17 @@ public class Utils {
         } else {
             throw new RuntimeException("Cannot create ID.");
         }
+    }
+    public static String getPassword(){
+        String s = new Scanner(System.in).nextLine();
+        while (!s.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$")){
+            System.out.println("Invalid Password");
+            System.out.println("Note: The password should contain a lower case character, upper case character," +
+                    " atleast one digit, a total of 8 - 20 character length, and special characters like ['@#$%^&-+=()']");
+            System.out.println("Enter your password correctly: ");
+            s = new Scanner(System.in).nextLine();
+        }
+        return s;
     }
 }
 

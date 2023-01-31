@@ -72,12 +72,8 @@ public class MemberUI {
             System.out.println("Select from the given books.");
             rentBookPreference = Utils.getInteger();
         }
-        System.out.println(" Enter the number days you want to rent: ");
+        System.out.println("Enter the number days you want to rent: ");
         int numberOdDays = Utils.getInteger();
-        System.out.println("Do you want to rent the Book(y/n)");
-        String rentingPreference = new Scanner(System.in).nextLine();
-        if (rentingPreference.equalsIgnoreCase("n"))
-            return;
         String bookID = member.getAllBooks().get(rentBookPreference-1).id;
         try {
             member.rentBook(bookID, numberOdDays);
@@ -114,7 +110,7 @@ public class MemberUI {
         double amount = Utils.getAmount();
 
         while (amount != actualAmount) {
-            System.err.println("Incorrect amount!!!!");
+            System.out.println("Incorrect amount!!!!");
             System.out.println("Enter Correct amount: Rs.");
             amount = Utils.getAmount();
         }
@@ -169,7 +165,7 @@ public class MemberUI {
     }
 
     private void viewProfile() {
-        System.out.println(member);
+        System.out.println(member.toString());
         System.out.println("Press any key to exit.");
         String exit = new Scanner(System.in).nextLine();
     }

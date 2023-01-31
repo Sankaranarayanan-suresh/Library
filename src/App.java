@@ -17,18 +17,23 @@ import java.time.Year;
 
 public class App {
     public static void main(String[] args) {
+        String s = new String("Book");
+        System.out.println(s.hashCode());
+        String s1 = "Book";
+        System.out.println(s1.hashCode());
         BookHandler bookHandler = BookHandler.getInstance();
         RentedBooksHandler rentedBooksHandler = RentedBooksHandler.getInstance();
         UsersHandler usersHandler = UsersHandler.getInstance();
         BooksDataManager booksDataManager = new BooksDataManager(bookHandler, rentedBooksHandler);
         LibraryDataManager libraryDataManager = new LibraryDataManager();
         UserDataManager userDataManager = new UserDataManager(usersHandler, rentedBooksHandler, booksDataManager, libraryDataManager);
-        userDataManager.addLibrarian("sankar", "9876543210", "1");
-        userDataManager.addMember("suresh","9876543211","1");
-        booksDataManager.addBook("book","nithya", Year.of(1999), BookCategory.ENGLISH);
+        userDataManager.addLibrarian("sankar", "9876543210", "sankar@123W");
+        userDataManager.addMember("suresh", "9876543211", "sankar@123W");
+        booksDataManager.addBook("rich dad poor dad", "nithya", Year.of(1999), BookCategory.ENGLISH);
+        booksDataManager.addBook("rich dad poor dad", "nithya", Year.of(1999), BookCategory.ENGLISH);
         System.out.println("Welcome to Library Management System");
         while (true) {
-            System.out.println("1.Sign-Up\n2.Sign-In");
+            System.out.println("1.Sign-Up\n2.Sign-In\n3.Exit");
             int userPreference = Utils.getInteger();
             if (userPreference == 1) {
                 Member member = new LoginUI(userDataManager).signUp();
@@ -43,9 +48,11 @@ public class App {
                     LibrarianUI librarianUI = new LibrarianUI((Librarian) user);
                     librarianUI.showMenu();
                 }
+            } else if (userPreference == 3) {
+                break;
+            }else {
+                System.out.println("Please select from given option!");
             }
-
         }
     }
-
 }

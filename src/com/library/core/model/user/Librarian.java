@@ -47,6 +47,9 @@ public class Librarian extends User {
     public void changeMembershipPlans(double oldPlanCost, double newPlanCost){
         libraryManager.setPlanCost( oldPlanCost, newPlanCost);
     }
+    public double[] getMembershipPlans(){
+        return libraryManager.getPlanCost();
+    }
 
     public void removeBook(String id) {
         manager.removeBook(id);

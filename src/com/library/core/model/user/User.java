@@ -14,15 +14,12 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return  "id          =  " + id + "\n" +
+        return  "id        =  " + id + "\n" +
                 "name        =  " + name + "\n" +
                 "phoneNumber =  " + phoneNumber;
     }
 
     public User(String id, String name, String phoneNumber, String password) {
-        if(!phoneNumber.matches("[6-9]{1}[0-9]{9}")) {
-            throw new RuntimeException("Phone number is not valid");
-        }
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
