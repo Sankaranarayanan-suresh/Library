@@ -1,24 +1,48 @@
 package com.library.core.model.book;
+
+import java.time.LocalDate;
 import java.time.Year;
-import java.sql.*;
+
 public class Book {
 
     public final String id;
-    public final int serialNumber;
+    public final String serialNumber;
     private final String name;
     private final String authorName;
     private final Year yearReleased;
     private final BookCategory category;
-    private int quantity;
+    private final LocalDate returnDate;
+    private final String memberPhoneNumber;
+    private boolean isAvailable;
 
-    public Book(String id, int serialNumber, String name, String authorName, Year yearReleased, BookCategory category) {
+    public Book(String id, String serialNumber, String name, String authorName, Year yearReleased, BookCategory category,
+                String memberPhoneNumber) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.name = name;
         this.authorName = authorName;
         this.yearReleased = yearReleased;
         this.category = category;
-        this.quantity++;
+        this.isAvailable = true;
+        this.returnDate = null;
+        this.memberPhoneNumber = memberPhoneNumber;
+    }
+
+    public Book(String id, String serialNumber, String name, String authorName, Year yearReleased, BookCategory category,
+                boolean isAvailable, LocalDate returnDate, String memberPhoneNumber) {
+        this.id = id;
+        this.serialNumber = serialNumber;
+        this.name = name;
+        this.authorName = authorName;
+        this.yearReleased = yearReleased;
+        this.category = category;
+        this.isAvailable = isAvailable;
+        this.returnDate = returnDate;
+        this.memberPhoneNumber = memberPhoneNumber;
+    }
+
+    public void changeAvailability() {
+        this.isAvailable = !this.isAvailable;
     }
 
     @Override
@@ -29,7 +53,9 @@ public class Book {
                 "authorName    = " + authorName + "\n" +
                 "yearReleased  = " + yearReleased + "\n" +
                 "category      = " + category + "\n" +
-                "quantity      = " + quantity + "\n";
+                "Available     = " + isAvailable + "\n" +
+                "return-Date   = " + returnDate+ "\n" +
+                "PhoneNumber   = "+memberPhoneNumber;
     }
 
     public String getName() {
@@ -48,14 +74,20 @@ public class Book {
         return category;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-    public int getQuantity() {
-        return quantity;
+    public LocalDate getReturnDate() {
+        return returnDate;
     }
 
-    public void updateQuantity(int quantity) {
-        this.quantity += quantity;
+    public String getMember() {
+        return memberPhoneNumber;
     }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
 }

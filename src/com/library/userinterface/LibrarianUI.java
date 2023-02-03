@@ -4,6 +4,7 @@ import com.library.core.model.book.Book;
 import com.library.core.model.book.BookCategory;
 import com.library.core.model.user.Librarian;
 import com.library.core.model.user.Member;
+import com.library.core.model.user.User;
 import com.library.database.utils.Utils;
 
 import java.time.Year;
@@ -68,14 +69,14 @@ public class LibrarianUI {
         String exit = new Scanner(System.in).nextLine();
     }
 
-    private void viewRentedMembers() {
-        List<Member> members = new ArrayList<>(librarian.getRentedMembers());
+    private void viewRentedUsers() {
+        List<User> members = new ArrayList<>(librarian.getRentedUsers());
         int i = 1;
         if (members.size() == 0) {
             System.out.println("No member to view!!");
             return;
         }
-        for (Member member : members) {
+        for (User member : members) {
             System.out.println(i++ + "." + member);
         }
         System.out.println("Press any key to exit.");
@@ -101,7 +102,7 @@ public class LibrarianUI {
         }
         BookCategory bookCategory = BookCategory.values[category-1];
         librarian.addBook(bookName, authorName, year, bookCategory);
-        System.out.println("Books added successfully:)");
+        System.out.println("Book added successfully:)");
     }
     private void viewMembershipPlans(){
         double[] planCost = librarian.getMembershipPlans();
@@ -196,7 +197,7 @@ public class LibrarianUI {
                     viewListOfBooks();
                     break;
                 case 3:
-                    viewRentedMembers();
+                    viewRentedUsers();
                     break;
                 case 4:
                     viewMembers();

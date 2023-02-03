@@ -1,7 +1,6 @@
 package com.library.userinterface;
 
 import com.library.core.model.book.Book;
-import com.library.core.model.book.RentedBook;
 import com.library.core.model.user.Member;
 import com.library.database.repository.LibraryDataManager;
 import com.library.database.utils.Utils;
@@ -57,6 +56,10 @@ public class MemberUI {
     }
 
     private void rentBook() {
+        if (!(member.getRentedBooks().size()<5)){
+            System.out.println("You have reached the renting limit. Return a book to rent a book.");
+            return;
+        }
         List<Book> books = new ArrayList<>(member.getAllBooks());
         int i = 1;
         if (books.size() == 0) {
@@ -73,32 +76,28 @@ public class MemberUI {
             rentBookPreference = Utils.getInteger();
         }
         System.out.println("Enter the number days you want to rent: ");
-        int numberOdDays = Utils.getInteger();
-        String bookID = member.getAllBooks().get(rentBookPreference-1).id;
+        int numberOfDays = Utils.getInteger();
+        String bookID = member.getAllBooks().get(rentBookPreference - 1).getSerialNumber();
         try {
-            member.rentBook(bookID, numberOdDays);
+            member.rentBook(bookID, numberOfDays);
             System.out.println("Book rented successfully");
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private void deleteAccount() {
-        try {
-            member.deleteAccount();
-        }catch (RuntimeException e){
-            System.out.println(e.getMessage());
-        }
+        member.deleteAccount();
     }
 
     private void viewRentedBooks() {
-        List<RentedBook> books = new ArrayList<>(member.getRentedBooks());
+        List<Book> books = new ArrayList<>(member.getRentedBooks());
         int i = 1;
         if (books.size() == 0) {
             System.out.println("You have not rented any book!!");
             return;
         }
-        for (RentedBook book : books) {
+        for (Book book : books) {
             System.out.println(i++ + "." + book);
         }
         System.out.println("Press any key to exit.");
@@ -119,13 +118,13 @@ public class MemberUI {
     }
 
     private void returnBook() {
-        List<RentedBook> books = new ArrayList<>(member.getRentedBooks());
+        List<Book> books = new ArrayList<>(member.getRentedBooks());
         int i = 1;
         if (books.size() == 0) {
             System.out.println("No Books to return!!");
             return;
         }
-        for (RentedBook book : books) {
+        for (Book book : books) {
             System.out.println(i++ + "." + book);
         }
         System.out.println("Select the book that you want to return.");
@@ -134,7 +133,7 @@ public class MemberUI {
             System.out.println("Select from the given books.");
             returnBookPreference = Utils.getInteger();
         }
-        RentedBook book = member.getRentedBooks().get(returnBookPreference-1);
+        Book book = member.getRentedBooks().get(returnBookPreference - 1);
         if (book.getReturnDate().isBefore(java.time.LocalDate.now())) {
             System.out.println("The return date of the book has passed. You need tp pay a penalty for the late return.");
             int numberOfDays = book.getReturnDate().compareTo(java.time.LocalDate.now());
@@ -144,7 +143,7 @@ public class MemberUI {
         try {
             member.returnBook(book);
             System.out.println("Book returned successfully:)");
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -197,8 +196,14 @@ public class MemberUI {
                     upgradeSubscription();
                     break;
                 case 7:
-                    deleteAccount();
-                    break driverFunction;
+                    try {
+                        deleteAccount();
+                        break driverFunction;
+                    }catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                        break ;
+                    }
+
                 case 8:
                     break driverFunction;
                 default:

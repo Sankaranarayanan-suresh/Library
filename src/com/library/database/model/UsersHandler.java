@@ -10,6 +10,9 @@ public class UsersHandler implements DatabaseFunctions<User> {
     private static UsersHandler handlerInstance = null;
 
     public static UsersHandler getInstance(){
+
+
+
         if (handlerInstance == null)
             handlerInstance = new UsersHandler();
         return handlerInstance;

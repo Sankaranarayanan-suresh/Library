@@ -1,11 +1,16 @@
 package com.library.database.utils;
 
+import com.library.database.DBConnector;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Year;
 import java.util.Scanner;
 
 public class Utils {
     private static int i = 1;
-    private static int serialNumber = 1;
 
     public static int getInteger() {
         Scanner sc = new Scanner(System.in);
@@ -16,7 +21,8 @@ public class Utils {
             return getInteger();
         }
     }
-    public static String getPhoneNumber(){
+
+    public static String getPhoneNumber() {
         String phoneNumber = new Scanner(System.in).nextLine();
         while (!phoneNumber.matches("[6-9]{1}[0-9]{9}")) {
             System.out.println("Phone number is not valid");
@@ -24,8 +30,27 @@ public class Utils {
         }
         return phoneNumber;
     }
-    public static int getBookSerialNumber(){
-        return serialNumber++;
+
+    public static String getBookSerialNumber() {
+        Connection con = DBConnector.getConnection();
+        String query = "SELECT serial_number as id from book order by id desc LIMIT 1;";
+        Statement stmt;
+        String serialNumber;
+        try {
+            stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(query);
+            int id;
+            if(!result.next()){
+                id = 1;
+                return String.valueOf(id);
+            }
+            id = Integer.parseInt(result.getString(1))+1;
+            serialNumber = String.valueOf(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return serialNumber;
     }
 
     public static Year getYear() {
@@ -53,7 +78,7 @@ public class Utils {
     }
 
     public static String generateID(String type) {
-        String s = (type.hashCode() + String.valueOf(i++));
+        String s = (Math.abs(type.hashCode()) + getBookSerialNumber());
         if (type.equalsIgnoreCase("book")) {
             return "Book-" + s;
         } else if (type.equalsIgnoreCase("Member")) {
@@ -64,9 +89,10 @@ public class Utils {
             throw new RuntimeException("Cannot create ID.");
         }
     }
-    public static String getPassword(){
+
+    public static String getPassword() {
         String s = new Scanner(System.in).nextLine();
-        while (!s.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$")){
+        while (!s.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$")) {
             System.out.println("Invalid Password");
             System.out.println("Note: The password should contain a lower case character, upper case character," +
                     " atleast one digit, a total of 8 - 20 character length, and special characters like ['@#$%^&-+=()']");
