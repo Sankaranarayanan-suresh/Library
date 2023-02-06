@@ -3,7 +3,6 @@ package com.library.core.model.user;
 import com.library.core.model.book.Book;
 import com.library.core.repository.book.UserBookManager;
 import com.library.core.repository.user.UserAccountManager;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +16,28 @@ public class Member extends User {
     private final UserAccountManager accountManager;
     private LocalDate memberShipValidDate;
 
-    public Member(String id, String name, String phoneNumber, String password, UserBookManager manager, UserAccountManager accountManager) {
+    public Member(String id, String name, String phoneNumber, String password,LocalDate memberShipValidDate ,
+                  UserBookManager manager, UserAccountManager accountManager) {
         super(id, name, phoneNumber, password);
-        this.memberShipValidDate = java.time.LocalDate.now().plusDays(30);
+        this.memberShipValidDate = memberShipValidDate;
         this.bookManager = manager;
         this.accountManager = accountManager;
         this.rentedBooks = new ArrayList<>();
+
     }
+    public Member(String id, String name, String phoneNumber, String password, LocalDate validityDate,
+                  UserBookManager manager, UserAccountManager accountManager,List<Book> rentedBooks ) {
+        super(id, name, phoneNumber, password);
+        this.memberShipValidDate = validityDate;
+        this.bookManager = manager;
+        this.accountManager = accountManager;
+        this.rentedBooks = new ArrayList<>(rentedBooks);
+    }
+
     public LocalDate getMemberShipValidDate() {
         return memberShipValidDate;
     }
 
-    @Override
     public List<Book> getAllBooks() {
         return (List<Book>) bookManager.getAvailableBooks();
     }

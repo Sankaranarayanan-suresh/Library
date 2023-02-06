@@ -69,14 +69,22 @@ public class MemberUI {
         for (Book book : books) {
             System.out.println(i++ + "." + book);
         }
-        System.out.println("Select the book that you want to rent.");
+        System.out.println("Select the book that you want to rent or press 0 to exit.");
         int rentBookPreference = Utils.getInteger();
+        if (rentBookPreference == 0 ){
+            return;
+        }
         while (rentBookPreference > member.getAllBooks().size()) {
             System.out.println("Select from the given books.");
             rentBookPreference = Utils.getInteger();
         }
         System.out.println("Enter the number days you want to rent: ");
         int numberOfDays = Utils.getInteger();
+        if (numberOfDays <= 0){
+            System.out.println("Number of days cannot be negative or 0!!");
+            System.out.println("Enter the number of days you want to rent: ");
+            numberOfDays = Utils.getInteger();
+        }
         String bookID = member.getAllBooks().get(rentBookPreference - 1).getSerialNumber();
         try {
             member.rentBook(bookID, numberOfDays);
@@ -136,7 +144,7 @@ public class MemberUI {
         Book book = member.getRentedBooks().get(returnBookPreference - 1);
         if (book.getReturnDate().isBefore(java.time.LocalDate.now())) {
             System.out.println("The return date of the book has passed. You need tp pay a penalty for the late return.");
-            int numberOfDays = book.getReturnDate().compareTo(java.time.LocalDate.now());
+            int numberOfDays = Math.abs(book.getReturnDate().compareTo(java.time.LocalDate.now()));
             System.out.println("Penalty amount is : Rs." + numberOfDays * 50);
             payment(numberOfDays * 50);
         }

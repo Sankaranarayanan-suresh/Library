@@ -17,7 +17,7 @@ public class Librarian extends User {
     private final BooksManager manager;
     private final LibraryManager libraryManager;
 
-    public Librarian(String id, String name, String phoneNumber, String password, UserDetailsManager detailsManager, BooksManager manager,LibraryManager libraryManager) {
+    public Librarian(String id, String name, String phoneNumber, String password, UserDetailsManager detailsManager, BooksManager manager, LibraryManager libraryManager) {
         super(id, name, phoneNumber, password);
         this.detailsManager = detailsManager;
         this.manager = manager;
@@ -43,10 +43,12 @@ public class Librarian extends User {
     public void addBook(String name, String authorName, Year yearReleased, BookCategory category) {
         manager.addBook(name, authorName, yearReleased, category);
     }
-    public void changeMembershipPlans(double oldPlanCost, double newPlanCost){
-        libraryManager.setPlanCost( oldPlanCost, newPlanCost);
+
+    public void changeMembershipPlans(double oldPlanCost, double newPlanCost) {
+        libraryManager.setPlanCost(oldPlanCost, newPlanCost);
     }
-    public double[] getMembershipPlans(){
+
+    public double[] getMembershipPlans() {
         return libraryManager.getPlanCost();
     }
 
@@ -54,7 +56,6 @@ public class Librarian extends User {
         manager.removeBook(id);
     }
 
-    @Override
     public Collection<Book> getAllBooks() {
         return manager.getAllBooks();
     }

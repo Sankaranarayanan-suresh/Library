@@ -25,7 +25,7 @@ public class LoginUI {
 
         if (userDataManager.userExists(phoneNumber)) {
             System.out.println("User already Exists!!!");
-            signUp();
+            return null;
         }
 
         while (true) {

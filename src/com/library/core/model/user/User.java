@@ -1,10 +1,5 @@
 package com.library.core.model.user;
 
-import com.library.core.model.book.Book;
-
-import java.util.Collection;
-
-
 public abstract class User {
 
     public final String id;
@@ -41,5 +36,4 @@ public abstract class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public abstract Collection<Book> getAllBooks();
 }

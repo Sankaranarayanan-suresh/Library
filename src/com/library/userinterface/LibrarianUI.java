@@ -134,7 +134,8 @@ public class LibrarianUI {
         }
         Book book = books.get(removingPreference-1);
         try {
-            librarian.removeBook(book.id);
+            librarian.removeBook(book.getSerialNumber());
+            System.out.println("Book removed successfully:)");
         }catch (RuntimeException e){
             System.out.println(e.getMessage());
         }

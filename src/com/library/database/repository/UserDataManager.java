@@ -8,7 +8,6 @@ import com.library.core.repository.library.LibraryManager;
 import com.library.core.repository.user.UserAccountManager;
 import com.library.core.repository.user.UserDetailsManager;
 import com.library.core.repository.user.UsersManager;
-import com.library.database.ManagerProvider;
 import com.library.database.model.DatabaseFunctions;
 import com.library.database.utils.Utils;
 
@@ -32,13 +31,15 @@ public class UserDataManager implements UserDetailsManager, UsersManager, UserAc
     }
 
     public Member addMember(String name, String phoneNumber, String password) {
-        Member member = new Member(Utils.generateID("Member"), name, phoneNumber, password, manager, this);
+        Member member = new Member(Utils.generateID("Member"), name, phoneNumber, password,
+                java.time.LocalDate.now().plusDays(30), manager, this);
         handler.set(member);
         return member;
     }
 
     public Librarian addLibrarian(String name, String phoneNumber, String password) {
-        Librarian librarian = new Librarian(Utils.generateID("librarian"), name, phoneNumber, password, this, manager, libraryManager);
+        Librarian librarian = new Librarian(Utils.generateID("librarian"), name, phoneNumber, password,
+                this, manager, libraryManager);
         handler.set(librarian);
         return librarian;
     }
@@ -59,9 +60,11 @@ public class UserDataManager implements UserDetailsManager, UsersManager, UserAc
 
     @Override
     public boolean userExists(String phoneNumber) {
-        for (User user : handler.getAll()) {
-            if (user.getPhoneNumber().equals(phoneNumber)) {
-                return true;
+        if (handler.getAll().size() > 0) {
+            for (User user : handler.getAll()) {
+                if (user.getPhoneNumber().equals(phoneNumber)) {
+                    return true;
+                }
             }
         }
         return false;

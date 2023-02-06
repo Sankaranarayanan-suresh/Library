@@ -12,7 +12,7 @@ public class DBConnector {
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library","root","Test@123");
             }
             catch (SQLException e) {
-                System.out.println(e);
+                System.out.println(e.getMessage());
             }
         }
         return con;

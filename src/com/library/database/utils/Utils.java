@@ -10,8 +10,6 @@ import java.time.Year;
 import java.util.Scanner;
 
 public class Utils {
-    private static int i = 1;
-
     public static int getInteger() {
         Scanner sc = new Scanner(System.in);
         try {
