@@ -8,18 +8,18 @@ import com.library.core.repository.library.LibraryManager;
 import com.library.core.repository.user.UserAccountManager;
 import com.library.core.repository.user.UserDetailsManager;
 import com.library.core.repository.user.UsersManager;
-import com.library.database.model.DatabaseFunctions;
+import com.library.database.model.UserDatabaseFunctions;
 import com.library.database.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDataManager implements UserDetailsManager, UsersManager, UserAccountManager {
-    private final DatabaseFunctions<User> handler;
+    private final UserDatabaseFunctions<User> handler;
     private final BooksDataManager manager;
     private final LibraryManager libraryManager;
 
-    public UserDataManager(DatabaseFunctions<User> database, BooksDataManager manager, LibraryManager libraryManager) {
+    public UserDataManager(UserDatabaseFunctions<User> database, BooksDataManager manager, LibraryManager libraryManager) {
         this.handler = database;
         this.manager = manager;
         this.libraryManager = libraryManager;
@@ -31,14 +31,14 @@ public class UserDataManager implements UserDetailsManager, UsersManager, UserAc
     }
 
     public Member addMember(String name, String phoneNumber, String password) {
-        Member member = new Member(Utils.generateID("Member"), name, phoneNumber, password,
-                java.time.LocalDate.now().plusDays(30), manager, this);
+        Member member = new Member(Utils.generateID("Member",phoneNumber), name, phoneNumber, password,
+                java.time.LocalDate.now().plusDays(30),0, manager, this);
         handler.set(member);
         return member;
     }
 
     public Librarian addLibrarian(String name, String phoneNumber, String password) {
-        Librarian librarian = new Librarian(Utils.generateID("librarian"), name, phoneNumber, password,
+        Librarian librarian = new Librarian(Utils.generateID("librarian",phoneNumber), name, phoneNumber, password,
                 this, manager, libraryManager);
         handler.set(librarian);
         return librarian;
@@ -73,7 +73,7 @@ public class UserDataManager implements UserDetailsManager, UsersManager, UserAc
     @Override
     public Collection<User> getRentedUsers() {
         Collection<User> members = new ArrayList<>();
-        for (Book rentedBook : manager.getRentedBooks()) {
+        for (Book rentedBook : manager.getAllRentedBooks()) {
             members.add(handler.get(rentedBook.getMember()));
         }
         return members;

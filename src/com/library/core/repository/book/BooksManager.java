@@ -13,6 +13,6 @@ public interface BooksManager {
     void removeBook(String id);
 
     Collection<Book> getAllBooks();
-    Collection<Book> getRentedBooks();
+    Collection<Book> getAllRentedBooks();
 
 }

@@ -4,7 +4,7 @@ import com.library.core.model.book.Book;
 import com.library.core.model.book.BookCategory;
 import com.library.core.repository.book.BooksManager;
 import com.library.core.repository.book.UserBookManager;
-import com.library.database.model.DatabaseFunctions;
+import com.library.database.model.BookDatabaseFunctions;
 import com.library.database.utils.Utils;
 
 import java.time.LocalDate;
@@ -15,9 +15,9 @@ import java.util.List;
 
 public class BooksDataManager implements BooksManager, UserBookManager {
 
-    private final DatabaseFunctions<Book> handler;
+    private final BookDatabaseFunctions<Book> handler;
 
-    public BooksDataManager(DatabaseFunctions<Book> database) {
+    public BooksDataManager(BookDatabaseFunctions<Book> database) {
         this.handler = database;
     }
 
@@ -32,7 +32,8 @@ public class BooksDataManager implements BooksManager, UserBookManager {
                 return;
             }
         }
-        newBook = new Book(Utils.generateID("book"), Utils.getBookSerialNumber(), name, authorName, yearReleased,
+        String serialNumber = Utils.getBookSerialNumber();
+        newBook = new Book(Utils.generateID("book",serialNumber), serialNumber, name, authorName, yearReleased,
                 category, null);
         handler.set(newBook);
     }
@@ -48,9 +49,19 @@ public class BooksDataManager implements BooksManager, UserBookManager {
     }
 
     @Override
-    public Collection<Book> getRentedBooks() {
+    public Collection<Book> getAllRentedBooks() {
         List<Book> rentedBooks = new ArrayList<>();
-        for (Book book : handler.getAll()) {
+        for (Book book : handler.getAllRentedBooks()) {
+            if (!book.isAvailable()) {
+                rentedBooks.add(book);
+            }
+        }
+        return rentedBooks;    }
+
+    @Override
+    public Collection<Book> getRentedBooks(String phoneNumber) {
+        List<Book> rentedBooks = new ArrayList<>();
+        for (Book book : handler.getRentedBooks(phoneNumber)) {
             if (!book.isAvailable()) {
                 rentedBooks.add(book);
             }

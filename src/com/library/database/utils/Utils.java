@@ -75,14 +75,13 @@ public class Utils {
         }
     }
 
-    public static String generateID(String type) {
-        String s = (Math.abs(type.hashCode()) + getBookSerialNumber());
+    public static String generateID(String type, String uniqueValue) {
         if (type.equalsIgnoreCase("book")) {
-            return "Book-" + s;
+            return "Book-" + uniqueValue;
         } else if (type.equalsIgnoreCase("Member")) {
-            return "Member-" + s;
+            return "Member-" + uniqueValue;
         } else if (type.equalsIgnoreCase("librarian")) {
-            return "Librarian-" + s;
+            return "Librarian-" + uniqueValue;
         } else {
             throw new RuntimeException("Cannot create ID.");
         }

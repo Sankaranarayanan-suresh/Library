@@ -17,7 +17,8 @@ public class Librarian extends User {
     private final BooksManager manager;
     private final LibraryManager libraryManager;
 
-    public Librarian(String id, String name, String phoneNumber, String password, UserDetailsManager detailsManager, BooksManager manager, LibraryManager libraryManager) {
+    public Librarian(String id, String name, String phoneNumber, String password, UserDetailsManager detailsManager,
+                     BooksManager manager, LibraryManager libraryManager) {
         super(id, name, phoneNumber, password);
         this.detailsManager = detailsManager;
         this.manager = manager;
@@ -29,7 +30,7 @@ public class Librarian extends User {
     }
 
     public Collection<Book> getRentedBooks() {
-        return manager.getRentedBooks();
+        return manager.getAllRentedBooks();
     }
 
     public List<Member> getAllMember() {

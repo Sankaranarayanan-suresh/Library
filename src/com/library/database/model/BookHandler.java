@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class BookHandler implements DatabaseFunctions<Book> {
+public class BookHandler implements BookDatabaseFunctions<Book> {
 
 
     private static final Connection con = DBConnector.getConnection();
@@ -30,15 +30,15 @@ public class BookHandler implements DatabaseFunctions<Book> {
             boolean tableExist = res.next();
             if (!tableExist) {
                 String sql = "CREATE TABLE book" +
-                        "(id VARCHAR(255) not NULL, " +
-                        "serial_number VARCHAR(255) not NULL," +
-                        "Book_Name VARCHAR(255), " +
-                        "Author_Name VARCHAR(255), " +
-                        "Year INTEGER, " +
-                        "Category VARCHAR(255)," +
-                        "IsAvailable VARCHAR(255)," +
+                        "(id VARCHAR(20) not NULL, " +
+                        "serial_number VARCHAR(10) not NULL," +
+                        "Book_Name VARCHAR(50) not NULL, " +
+                        "Author_Name VARCHAR(50) not NULL, " +
+                        "Year INTEGER not NULL, " +
+                        "Category VARCHAR(15) not NULL," +
+                        "IsAvailable VARCHAR(10) not NULL," +
                         "return_date DATE DEFAULT NULL," +
-                        "MemberID VARCHAR(255)," +
+                        "MemberID VARCHAR(20)," +
                         "PRIMARY KEY ( serial_number ))";
                 stmt.execute(sql);
             }
@@ -158,5 +158,53 @@ public class BookHandler implements DatabaseFunctions<Book> {
             throw new RuntimeException("Cannot find that book in library");
         }
     }
+
+    @Override
+    public Collection<Book> getRentedBooks(String phoneNumber) {
+        List<Book> rentedBooks = new ArrayList<>();
+        String query = "select * from book where MemberID = "+phoneNumber+"";
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(query);
+            if (result.next()){
+                LocalDate returnDate = null;
+                if (!(result.getDate(8) == null)) {
+                    returnDate = result.getDate(8).toLocalDate();
+                }
+                rentedBooks.add(new Book(result.getString(1), result.getString(2),
+                        result.getString(3), result.getString(4),
+                        Year.of(result.getInt(5)), BookCategory.valueOf(result.getString(6))
+                        , Boolean.parseBoolean(result.getString(7)), returnDate,
+                        result.getString(9)));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return rentedBooks;
+    }
+
+    @Override
+    public Collection<Book> getAllRentedBooks() {
+        List<Book> rentedBooks = new ArrayList<>();
+        String query = "select * from book where isAvailable = false";
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(query);
+            result.next();
+            LocalDate returnDate = null;
+            if (!(result.getDate(8) == null)) {
+                returnDate = result.getDate(8).toLocalDate();
+            }
+            rentedBooks.add(new Book(result.getString(1), result.getString(2),
+                    result.getString(3), result.getString(4),
+                    Year.of(result.getInt(5)), BookCategory.valueOf(result.getString(6))
+                    , Boolean.parseBoolean(result.getString(7)), returnDate,
+                    result.getString(9)));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return rentedBooks;    }
 }
 

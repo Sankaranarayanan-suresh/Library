@@ -87,8 +87,11 @@ public class MemberUI {
         }
         String bookID = member.getAllBooks().get(rentBookPreference - 1).getSerialNumber();
         try {
-            member.rentBook(bookID, numberOfDays);
-            System.out.println("Book rented successfully");
+            boolean rentStatus = member.rentBook(bookID, numberOfDays);
+            if (!rentStatus){
+                System.out.println("Book not rented:(");
+            }
+            System.out.println("Book rented successfully:)");
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
@@ -141,7 +144,8 @@ public class MemberUI {
             System.out.println("Select from the given books.");
             returnBookPreference = Utils.getInteger();
         }
-        Book book = member.getRentedBooks().get(returnBookPreference - 1);
+        List<Book> rentedBooks = new ArrayList<>(member.getRentedBooks());
+        Book book = rentedBooks.get(returnBookPreference - 1);
         if (book.getReturnDate().isBefore(java.time.LocalDate.now())) {
             System.out.println("The return date of the book has passed. You need tp pay a penalty for the late return.");
             int numberOfDays = Math.abs(book.getReturnDate().compareTo(java.time.LocalDate.now()));

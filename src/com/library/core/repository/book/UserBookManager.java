@@ -8,7 +8,6 @@ public interface UserBookManager {
     Collection<Book> getAvailableBooks();
 
     Book rentBook(String id, String phoneNumber,int numberOfDays);
-
     void returnBook(Book book);
-    Collection<Book> getRentedBooks();
+    Collection<Book> getRentedBooks(String phoneNumber);
 }

@@ -10,7 +10,7 @@ import com.library.userinterface.MemberUI;
 public class App {
 
     public static void main(String[] args) {
-        ManagerProvider.getUserDataManager().addLibrarian("sankar", "9876543210", "sankar@123W");
+        //ManagerProvider.getUserDataManager().addLibrarian("sankar", "9876543210", "sankar@123W");
         System.out.println("Welcome to Library Management System");
         while (true) {
             System.out.println("1.Sign-Up\n2.Sign-In\n3.Exit");

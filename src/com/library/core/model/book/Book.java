@@ -55,7 +55,7 @@ public class Book {
                 "category      = " + category + "\n" +
                 "Available     = " + isAvailable + "\n" +
                 "return-Date   = " + returnDate+ "\n" +
-                "PhoneNumber   = "+memberPhoneNumber;
+                "PhoneNumber   = "+memberPhoneNumber +"\n";
     }
 
     public String getName() {

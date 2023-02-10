@@ -38,8 +38,9 @@ public class LoginUI {
                 System.err.println("Password Mismatch");
                 continue;
             }
+            Member member = userDataManager.addMember(name, phoneNumber, password);
             System.out.println("Sign-Up successful!!\nAs you are a new member you have initial Membership of one month.\nEnjoy reading:)");
-            return userDataManager.addMember(name, phoneNumber, password);
+            return member;
         }
     }
 
